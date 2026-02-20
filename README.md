@@ -66,6 +66,47 @@ The model translates natural language instructions into executable function call
 
 Training was response-only (user/system tokens masked from loss). Eval loss tracks train loss closely with no overfitting.
 
+### Inference Results
+
+Evaluated on 20 held-out examples from the `google/mobile-actions` eval split: **20/20 correct (100% accuracy)**
+
+| # | User Prompt | Expected | Predicted | Time |
+|---|---|---|---|---|
+| 1 | Can you please save a new contact for me? The name is Lena Petrova... | `create_contact` | `create_contact` | 30.41s* |
+| 2 | Please send an email to javier.ortega@ecotradeintl.com with the subject 'Update... | `send_email` | `send_email` | 5.31s |
+| 3 | I need to save a new contact. The full name is Anya Sharma... | `create_contact` | `create_contact` | 2.62s |
+| 4 | Please set up a new calendar event for 'Team Lunch with Marketing' on May 13... | `create_calendar_event` | `create_calendar_event` | 2.06s |
+| 5 | Please send an email to Kenji Tanaka at kenji.tanaka@corpmail.jp... | `send_email` | `send_email` | 3.15s |
+| 6 | Turn on the flashlight and show me the location of the Sunnyvale Library... | `turn_on_flashlight` | `turn_on_flashlight` | 1.82s |
+| 7 | Can you please show me the location of the art supply store 'Canvas Creations'... | `show_map` | `show_map` | 1.77s |
+| 8 | I need to set up a new calendar event. The title should be "Meeting with Dr. Che... | `create_calendar_event` | `create_calendar_event` | 2.16s |
+| 9 | Please schedule a calendar event titled 'Quarterly Budget Review' for 10:30 AM... | `create_calendar_event` | `create_calendar_event` | 4.64s |
+| 10 | I need to check under the sofa, please turn on the flashlight. | `turn_on_flashlight` | `turn_on_flashlight` | 0.90s |
+| 11 | Please save a new contact. The name is Marcus Oliveira... | `create_contact` | `create_contact` | 2.91s |
+| 12 | Can you show me where The Wandering Page bookstore is located in Brooklyn? | `show_map` | `show_map` | 1.24s |
+| 13 | I'm having trouble reading this menu. Can you please turn on the flashlight... | `turn_on_flashlight` | `turn_on_flashlight` | 1.86s |
+| 14 | Send an email to Aisha.Khan@fabrikam.com with the subject "Follow-up on Q1 Repor... | `send_email` | `send_email` | 3.03s |
+| 15 | Please send an email to elara.pereira@email.com with the subject "Project Checkp... | `send_email` | `send_email` | 4.93s |
+| 16 | Please turn off the flashlight and immediately schedule a calendar event titled... | `turn_off_flashlight` | `turn_off_flashlight` | 2.84s |
+| 17 | Turn on my flashlight, and please create a calendar event titled "Morning Run"... | `turn_on_flashlight` | `turn_on_flashlight` | 2.70s |
+| 18 | Please create a new contact named Aisha Khan with the phone number 987-654-3210... | `create_contact` | `create_contact` | 3.87s |
+| 19 | I need to add a new contact named Elara Chen. Her phone number is +61 491 570 11... | `create_contact` | `create_contact` | 2.45s |
+| 20 | Turn on the flashlight, I need to see what I dropped in this dark corner. | `turn_on_flashlight` | `turn_on_flashlight` | 0.89s |
+
+*\*First call includes CUDA warmup. Typical inference: ~1-5s on NVIDIA L4.*
+
+**Accuracy by function type:**
+
+| Function | Tested | Correct | Accuracy |
+|---|---|---|---|
+| `create_contact` | 5 | 5 | 100% |
+| `send_email` | 4 | 4 | 100% |
+| `create_calendar_event` | 4 | 4 | 100% |
+| `turn_on_flashlight` | 4 | 4 | 100% |
+| `show_map` | 2 | 2 | 100% |
+| `turn_off_flashlight` | 1 | 1 | 100% |
+| **Total** | **20** | **20** | **100%** |
+
 ## Usage
 
 ### With PEFT + Transformers
